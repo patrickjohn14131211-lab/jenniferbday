@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Jennifer!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #667eea, #764ba2); /* Romantic purple gradient */
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: background 0.5s;
+            overflow: hidden;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        button {
+            background: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1em;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            color: #667eea;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        .letter {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            color: #333;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: none;
+            text-align: left;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #667eea;
+            border-radius: 50%;
+            animation: fall 5s linear infinite;
+        }
+        .signature {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 1.5em;
+            color: #667eea;
+        }
+        /* Time Lock Styles */
+        #timeLock {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            color: white;
+        }
+        .locked-button {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Time Lock Overlay (shown first) -->
+    <div id="timeLock">
+        <h1>🎁 For My Jennifer</h1>
+        <p>Your special birthday gift unlocks in...</p>
+        <div id="countdown" style="font-size: 2em; font-weight: bold; margin: 20px 0;">
+            00:00:00
+        </div>
+        <p>Be ready at exactly <span id="unlockTime"></span>! 💜</p>
+    </div>
+
+    <!-- Your existing content (initially hidden) -->
+    <div class="container" id="landing" style="display: none;">
+        <h1>🎉 Happy Birthday, My Beautiful Jennifer! 🎂</h1>
+        <p>Click the button below to open my love letter to you...</p>
+        <button id="openButton" onclick="showLetter()">Open My Heart 💖</button>
+    </div>
+
+    <div class="letter" id="letter" style="display: none;">
+        <h2>To My Sweet Jennifer,</h2>
+        <p>
+            Happy Birthday to the most amazing girlfriend in the world! 🌹 Every day, you amaze me with your beautiful smile, your kind heart, and the way you make me feel so loved.  
+            <br><br>
+            I wish I could be there to hold you close, kan nfsy 2ni 25dk and go out and buy you stuff and enjoy our time but i will happen isa soon .  
+            <br><br>
+            You're my favorite hello and the hardest goodbye. Our late-night calls, your laughter, the way you your tone changes when your talking to me it always makes my heart melt  - it all makes the distance between us feel smaller.  
+            <br><br>
+            Today, I hope you feel how incredibly special you are. You deserve all the love, joy, and happiness in the world. One day, I'll be there to celebrate with you in person. Until then, here's a virtual kiss: *mwah* 💋  
+            <br><br>
+           i really cant wait to meet you in person , i love you so much ya koko MWAH  
+        </p>
+        <p style="text-align: right;">
+            Forever yours,<br>
+            <span class="signature">Patrick</span>
+        </p>
+    </div>
+
+    <script>
+        // SET YOUR UNLOCK TIME HERE (in her timezone)
+        const unlockDate = new Date("2025-08-28T00:00:00"); // CHANGE TO JENNIFER'S BIRTHDAY
+        
+        function updateCountdown() {
+            const now = new Date();
+            const diff = unlockDate - now;
+            
+            if (diff <= 0) {
+                // TIME'S UP - REVEAL EVERYTHING!
+                document.getElementById("timeLock").style.display = "none";
+                document.getElementById("landing").style.display = "block";
+                return;
+            }
+            
+            // Update countdown display
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById("countdown").textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Show unlock time
+            document.getElementById("unlockTime").textContent = 
+                unlockDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Your existing functions
+        function showLetter() {
+            document.getElementById('landing').style.display = 'none';
+            document.getElementById('letter').style.display = 'block';
+            createConfetti();
+        }
+
+        function createConfetti() {
+            const colors = ['#667eea', '#764ba2', '#8a56ac', '#9b6bcf', '#a87ede'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Initial setup
+        document.getElementById("openButton").addEventListener("click", function(e) {
+            if (new Date() < unlockDate) {
+                e.preventDefault();
+                alert("⌛ Not yet, my love! Your gift will unlock at the perfect time.");
+            }
+        });
+
+        // Check every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Run immediately
+    </script>
+</body>
+</html>
